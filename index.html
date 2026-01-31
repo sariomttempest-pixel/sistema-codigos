@@ -49,19 +49,31 @@ button{
 
 <script>
 
-const codes = [
- "ALPHA123",
- "BETA456",
- "OMEGA999"
-];
+const users = {
+  "000": "Fundador",
+
+  "001": "Recluta",
+  "002": "Recluta",
+  "003": "Recluta",
+  "004": "Recluta",
+
+  // Rangos especiales (solo tú decides)
+  "100": "Soldado",
+  "200": "Capitán",
+  "300": "Comandante",
+  "400": "Coronel Supremo",
+
+  // Guardianes
+  "900": "Seraphin"
+};
 
 function login(){
 
 let userCode = document.getElementById("code").value;
 let msg = document.getElementById("msg");
 
-if(codes.includes(userCode)){
-    msg.innerHTML="✅ Acceso permitido";
+if(users[userCode]){
+    msg.innerHTML = "✅ Acceso permitido<br>Rango: " + users[userCode];
     msg.style.color="lime";
 }else{
     msg.innerHTML="❌ Código incorrecto";
