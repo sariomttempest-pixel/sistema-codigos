@@ -42,6 +42,7 @@ button{
 <p id="msg"></p>
 
 <br><br>
+<button onclick="logout()">Cerrar sesión</button>
 
 <a href="https://discord.gg/c4e5Fbeav" target="_blank">
 <button>Ir a Discord</button>
@@ -67,7 +68,48 @@ const users = {
   "900": "Seraphin"
 };
 
-function login(){
+function logout(){
+
+    localStorage.removeItem("userCode");
+    location.reload();
+
+}
+
+    let userCode = document.getElementById("code").value;
+    let msg = document.getElementById("msg");
+
+    // Ocultar paneles primero
+    document.getElementById("panelFundador").style.display = "none";
+    document.getElementById("panelUsuario").style.display = "none";
+
+    if(users[userCode]){
+        // Guardar sesión
+localStorage.setItem("userCode", userCode);
+
+        let rango = users[userCode];
+
+        msg.innerHTML = "✅ Acceso permitido<br>Rango: " + rango;
+        msg.style.color = "lime";
+
+        // Fundador
+        if(userCode === "000"){
+            document.getElementById("panelFundador").style.display = "block";
+        }
+
+        // Usuario normal
+        else{
+            document.getElementById("uCode").innerText = userCode;
+            document.getElementById("uRango").innerText = rango;
+
+            document.getElementById("panelUsuario").style.display = "block";
+        }
+
+    }else{
+
+        msg.innerHTML = "❌ Código incorrecto";
+        msg.style.color = "red";
+    }
+    }
 
 let userCode = document.getElementById("code").value;
 let msg = document.getElementById("msg");
@@ -81,8 +123,58 @@ if(users[userCode]){
 }
 
 }
+// Auto login si ya hay sesión
+window.onload = function(){
 
+    let savedCode = localStorage.getItem("userCode");
+
+    if(savedCode){
+        document.getElementById("code").value = savedCode;
+        login();
+    }
+
+    }
 </script>
+    <!-- PANEL FUNDADOR -->
+<div id="panelFundador" style="display:none; margin-top:30px;">
 
+    <h2>🔱 Panel del Fundador</h2>
+
+    <button onclick="alert('Aquí irán los usuarios')">
+        Ver Usuarios
+    </button>
+
+    <br><br>
+
+    <button onclick="alert('Aquí cambiarás rangos')">
+        Cambiar Rangos
+    </button>
+
+    <br><br>
+
+    <button onclick="alert('Aquí crearás códigos')">
+        Crear Código
+    </button>
+
+</div>
+
+
+<!-- PANEL USUARIO -->
+<div id="panelUsuario" style="display:none; margin-top:30px;">
+
+    <h2>👤 Panel de Miembro</h2>
+
+    <p><b>Código:</b> <span id="uCode"></span></p>
+    <p><b>Rango:</b> <span id="uRango"></span></p>
+
+    <p style="color:lime;">✔ Usuario registrado</p>
+
+    <br>
+
+    <button onclick="window.open('https://https://discord.gg/c4e5Fbeav','_blank')">
+        Ir a Discord
+    </button>
+
+</div>
 </body>
   </html>
